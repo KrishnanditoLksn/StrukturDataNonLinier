@@ -10,10 +10,6 @@ public class Tree {
         this.root = null;
     }
 
-    public Tree(TreeNode root) {
-        this.root = root;
-    }
-
     public TreeNode getRoot() {
         return root;
     }

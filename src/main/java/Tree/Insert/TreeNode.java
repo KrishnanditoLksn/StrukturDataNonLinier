@@ -31,7 +31,4 @@ public class TreeNode {
         return element;
     }
 
-    public void setiData(int element) {
-        this.element = element;
-    }
 }
