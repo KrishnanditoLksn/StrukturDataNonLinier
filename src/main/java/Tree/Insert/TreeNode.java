@@ -3,7 +3,7 @@ package Tree.Insert;
 public class TreeNode {
     TreeNode leftNode;
     TreeNode rightNode;
-    private int element;
+    private final int element;
 
     public TreeNode(int element) {
         this.element = element;
