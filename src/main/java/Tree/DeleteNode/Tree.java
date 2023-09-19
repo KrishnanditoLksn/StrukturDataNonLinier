@@ -82,14 +82,15 @@ public class Tree {
             return;
         }
         inOrderTraversal(localRoot.getLeftChild());
-        System.out.println(localRoot.getElement() + " ");
+        System.out.print(localRoot.getElement() + " ");
         inOrderTraversal(localRoot.getRightChild());
     }
 
 
-    public void delete(int key) {
-        TreeNode parent = getRoot();
-        TreeNode temp = getRoot();
+    //thanks to achmad herlambang
+    public boolean delete(int key) {
+        TreeNode parent = root;
+        TreeNode temp = root;
 
         while (temp != null) {
             if (key < temp.getElement()) {
@@ -102,29 +103,38 @@ public class Tree {
                 if (temp.getLeftChild() == null && temp.getRightChild() == null) {
                     if (key < parent.getElement()) {
                         parent.setLeftChild(null);
+                    } else if (key > parent.getElement()) {
+                        parent.setRightChild(null);
+                    } else {
+                        root = null;
                     }
-                    parent.setRightChild(null);
-
                 } else if (temp.getLeftChild() == null && temp.getRightChild() != null) {
                     //kondisi 1 atau 2
                     if (key < parent.getElement()) {
                         parent.setLeftChild(temp.getRightChild());
+                    } else if (key > parent.getElement()) {
+                        parent.setRightChild(temp.getRightChild());
+                    } else {
+                        root = temp.getRightChild();
                     }
-                    parent.setRightChild(temp.getRightChild());
-
-                }//kondisi 3 , kiri null dan kanan kosong
+                }//kondisi 3 , kiri tidak kosong  dan kanan kosong
                 else if (temp.getLeftChild() != null && temp.getRightChild() == null) {
                     if (key < parent.getElement()) {
                         //kondisi 4 punya anak kiri dari anak kiri
                         parent.setLeftChild(temp.getLeftChild());
                     }
                     //kondisi 4 punya anak kanan dari anak kiri
-                    parent.setRightChild(temp.getLeftChild());
 
+                    else if (key > parent.getElement()) {
+                        parent.setRightChild(temp.getLeftChild());
+                    } else {
+                        root = temp.getLeftChild();
+                    }
                 }
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     public TreeNode getSibNode(int key) {
