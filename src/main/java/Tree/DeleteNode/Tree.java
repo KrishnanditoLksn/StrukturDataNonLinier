@@ -1,5 +1,6 @@
 package Tree.DeleteNode;
 
+import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -59,6 +60,7 @@ public class Tree {
         return false;
     }
 
+
     public void preOrderTraversal(TreeNode localRoot) {
         if (localRoot == null) {
             return;
@@ -75,6 +77,10 @@ public class Tree {
         postOrderTraversal(localRoot.getLeftChild());
         postOrderTraversal(localRoot.getRightChild());
         System.out.println(localRoot.getElement() + " ");
+    }
+
+    public void inOrderTraversal(){
+        inOrderTraversal(getRoot());
     }
 
     public void inOrderTraversal(TreeNode localRoot) {
@@ -171,6 +177,15 @@ public class Tree {
             if (temp.getRightChild() != null) {
                 treeNodeQueue.add(temp.getRightChild());
             }
+        }
+    }
+
+    //SUMBER: https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java/42449385#42449385
+    public void print(String prefix , TreeNode node , boolean isLeft){
+        if (node != null){
+            print(prefix + "     ", node.getRightChild() , false);
+            System.out.println(prefix +("|-- ") + node.getElement());
+            print(prefix + "     ", node.getLeftChild() , true);
         }
     }
 }
