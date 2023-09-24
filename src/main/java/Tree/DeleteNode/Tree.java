@@ -1,6 +1,5 @@
 package Tree.DeleteNode;
 
-import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -60,7 +59,6 @@ public class Tree {
         return false;
     }
 
-
     public void preOrderTraversal(TreeNode localRoot) {
         if (localRoot == null) {
             return;
@@ -79,7 +77,7 @@ public class Tree {
         System.out.println(localRoot.getElement() + " ");
     }
 
-    public void inOrderTraversal(){
+    public void inOrderTraversal() {
         inOrderTraversal(getRoot());
     }
 
@@ -92,12 +90,11 @@ public class Tree {
         inOrderTraversal(localRoot.getRightChild());
     }
 
-
     //thanks to achmad herlambang
-    public boolean delete(int key) {
+    public void delete(int key) {
         TreeNode parent = root;
         TreeNode temp = root;
-
+        //Searching dulu , setelah temp sama dengan key , maka baru lakukan penghapusan node dengan berbagai kondisi
         while (temp != null) {
             if (key < temp.getElement()) {
                 parent = temp;
@@ -106,6 +103,7 @@ public class Tree {
                 parent = temp;
                 temp = temp.getRightChild();
             } else {
+                //pengkondisian berbagai kondisi child
                 if (temp.getLeftChild() == null && temp.getRightChild() == null) {
                     if (key < parent.getElement()) {
                         parent.setLeftChild(null);
@@ -137,10 +135,9 @@ public class Tree {
                         root = temp.getLeftChild();
                     }
                 }
-                return true;
+                return;
             }
         }
-        return false;
     }
 
     public TreeNode getSibNode(int key) {
@@ -181,11 +178,28 @@ public class Tree {
     }
 
     //SUMBER: https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java/42449385#42449385
-    public void print(String prefix , TreeNode node , boolean isLeft){
-        if (node != null){
-            print(prefix + "     ", node.getRightChild() , false);
-            System.out.println(prefix +("|-- ") + node.getElement());
-            print(prefix + "     ", node.getLeftChild() , true);
+    public void printTree(String prefix, TreeNode node) {
+        if (node != null) {
+            printTree(prefix + "     ", node.getRightChild());
+            System.out.println(prefix + ("|-- ") + node.getElement());
+            printTree(prefix + "     ", node.getLeftChild());
         }
+    }
+
+    public int minimumNode(TreeNode current) {
+        if (current.getLeftChild() == null) {
+            return current.getElement();
+        }
+        return minimumNode(current.getLeftChild());
+    }
+
+    public int maximumNode(TreeNode current) {
+        //mengecek jika anak kanan kosong
+        if (current.getRightChild() == null) {
+            //return data di pointer
+            return current.getElement();
+        }
+        //panggil fungsi rekursi
+        return maximumNode(current.getRightChild());
     }
 }
