@@ -1,9 +1,9 @@
 package Tree.DeleteNode;
 
 public class TreeNode {
+    private int Element;
     private TreeNode leftChild;
     private TreeNode rightChild;
-    private final int Element;
 
     public TreeNode(int element) {
         this.leftChild = null;
@@ -13,6 +13,10 @@ public class TreeNode {
 
     public int getElement() {
         return Element;
+    }
+
+    public void setElement(int element) {
+        this.Element = element;
     }
 
     public TreeNode getRightChild() {

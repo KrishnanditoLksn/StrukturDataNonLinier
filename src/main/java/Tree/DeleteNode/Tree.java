@@ -134,6 +134,9 @@ public class Tree {
                     } else {
                         root = temp.getLeftChild();
                     }
+
+                } else if (temp.getLeftChild() != null && temp.getRightChild() != null) {
+                    suksesor(temp);
                 }
                 return;
             }
@@ -177,6 +180,7 @@ public class Tree {
         }
     }
 
+    // many codes of this tree bst method made from algorithm  from  gfg
     //SUMBER: https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java/42449385#42449385
     public void printTree(String prefix, TreeNode node) {
         if (node != null) {
@@ -199,7 +203,62 @@ public class Tree {
             //return data di pointer
             return current.getElement();
         }
-        //panggil fungsi rekursi
+
+        //Jika node kanan kosong akan terus mencari
         return maximumNode(current.getRightChild());
+    }
+
+    public TreeNode suksesor(TreeNode temp) {
+        TreeNode suksesor = temp.getRightChild();
+        TreeNode parentSuksesor = null;
+
+        while (suksesor.getLeftChild() != null) {
+            parentSuksesor = suksesor;
+            suksesor = suksesor.getLeftChild();
+        }
+        temp.setElement(suksesor.getElement());
+
+        if (parentSuksesor != null) {
+            parentSuksesor.setLeftChild(suksesor.getRightChild());
+        } else {
+            temp.setRightChild(suksesor.getRightChild());
+        }
+        return suksesor;
+    }
+
+    public TreeNode predecessor(TreeNode temp) {
+        TreeNode predecessor = temp.getLeftChild();
+        TreeNode parentSuksesor = null;
+
+        return predecessor;
+    }
+
+    public int nodeDepth(TreeNode node) {
+        if (node == null) {
+            return 0;
+        } else {
+            int leftNodeDepth = nodeDepth(node.getLeftChild());
+            int rightNodeDepth = nodeDepth(node.getRightChild());
+
+            //jika right nod > left
+            if (rightNodeDepth > leftNodeDepth) {
+                return rightNodeDepth + 1;
+            } else {
+                return leftNodeDepth + 1;
+            }
+        }
+    }
+
+
+    public int getTreeSize(TreeNode node) {
+        int calculateSize;
+        if (node == null) {
+            return 0;
+        } else {
+            getTreeSize(node.getLeftChild());
+            getTreeSize(node.getLeftChild());
+            calculateSize = getTreeSize(node.getLeftChild()) + getTreeSize(node.getRightChild()) + 1;
+        }
+        return calculateSize;
     }
 }
