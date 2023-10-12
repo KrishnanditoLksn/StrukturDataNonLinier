@@ -1,4 +1,4 @@
-package Tree.DeleteNode;
+package Tree.BSTCompleteMethod;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -165,23 +165,9 @@ public class Tree {
         return null;
     }
 
-    public void bfsLevel() {
-        Queue<TreeNode> treeNodeQueue = new LinkedList<>();
-        treeNodeQueue.add(root);
-        while (!treeNodeQueue.isEmpty()) {
-            TreeNode temp = treeNodeQueue.poll();
-            System.out.print(temp.getElement() + " ");
-            if (temp.getLeftChild() != null) {
-                treeNodeQueue.add(temp.getLeftChild());
-            }
-            if (temp.getRightChild() != null) {
-                treeNodeQueue.add(temp.getRightChild());
-            }
-        }
-    }
-
-    // many codes of this tree bst method made from algorithm  from  gfg
+    // many codes of this tree bst method made from algorithm  from  gfg and 2009 Introduction to Algorithms Third Ed
     //SUMBER: https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java/42449385#42449385
+
     public void printTree(String prefix, TreeNode node) {
         if (node != null) {
             printTree(prefix + "     ", node.getRightChild());
@@ -191,21 +177,17 @@ public class Tree {
     }
 
     public int minimumNode(TreeNode current) {
-        if (current.getLeftChild() == null) {
-            return current.getElement();
+        while (current.getLeftChild() != null) {
+            current = current.getLeftChild();
         }
-        return minimumNode(current.getLeftChild());
+        return current.getElement();
     }
 
     public int maximumNode(TreeNode current) {
-        //mengecek jika anak kanan kosong
-        if (current.getRightChild() == null) {
-            //return data di pointer
-            return current.getElement();
+        while (current.getRightChild() != null) {
+            current = current.getRightChild();
         }
-
-        //Jika node kanan kosong akan terus mencari
-        return maximumNode(current.getRightChild());
+        return current.getElement();
     }
 
     public TreeNode suksesor(TreeNode temp) {
@@ -228,35 +210,85 @@ public class Tree {
 
     public TreeNode predecessor(TreeNode temp) {
         TreeNode predecessor = temp.getLeftChild();
-        TreeNode parentSuksesor = null;
+        TreeNode parentPrede = null;
+
+        while (predecessor.getRightChild() != null) {
+            parentPrede = predecessor;
+            predecessor = predecessor.getRightChild();
+        }
+
+        temp.setElement(predecessor.getElement());
+
+        if (parentPrede != null) {
+            parentPrede.setRightChild(parentPrede.getLeftChild());
+        } else {
+            temp.setLeftChild(predecessor.getLeftChild());
+        }
 
         return predecessor;
     }
 
-    public int nodeDepth(TreeNode node) {
+    public int heightNode(TreeNode node) {
         if (node == null) {
             return 0;
         } else {
-            int leftNodeDepth = nodeDepth(node.getLeftChild());
-            int rightNodeDepth = nodeDepth(node.getRightChild());
+            int leftNodeDepth = heightNode(node.getLeftChild());
+            int rightNodeDepth = heightNode(node.getRightChild());
 
             //jika right nod > left
             if (rightNodeDepth > leftNodeDepth) {
-                return rightNodeDepth + 1;
+                return leftNodeDepth + rightNodeDepth;
             } else {
                 return leftNodeDepth + 1;
             }
         }
     }
 
+    public void bfsLevel() {
+        Queue<TreeNode> treeNodeQueue = new LinkedList<>();
+        treeNodeQueue.add(root);
+        while (!treeNodeQueue.isEmpty()) {
+            TreeNode temp = treeNodeQueue.poll();
+            System.out.print(temp.getElement() + " ");
+            if (temp.getLeftChild() != null) {
+                treeNodeQueue.add(temp.getLeftChild());
+            }
+            if (temp.getRightChild() != null) {
+                treeNodeQueue.add(temp.getRightChild());
+            }
+        }
+    }
 
-    public int getTreeSize(TreeNode node) {
-        int calculateSize;
+    public boolean isCompleteTree(TreeNode node, int index, int nNodes) {
+        if (root == null) {
+            return true;
+        }
+        if (index >= nNodes) {
+            return false;
+        }
+        return (isCompleteTree(node.getLeftChild(), 2 * index + 1, nNodes) && isCompleteTree(node.getRightChild(), 2 * index + 2, nNodes));
+    }
+
+
+    public int nodeDepth(TreeNode node) {
+        int leftNodeHeight;
+        int rightNodeHeight;
         if (node == null) {
             return 0;
         } else {
-            getTreeSize(node.getLeftChild());
-            getTreeSize(node.getLeftChild());
+            leftNodeHeight = nodeDepth(node.getLeftChild());
+            rightNodeHeight = nodeDepth(node.getRightChild());
+        }
+        return Math.max(leftNodeHeight, rightNodeHeight) + 1;
+    }
+
+    public int getTreeSize(TreeNode node) {
+        int calculateSize;
+        //base case
+        if (node == null) {
+            return 0;
+        } else {
+            //menghitung ukuran tree dengan merekursi  left child dan right child
             calculateSize = getTreeSize(node.getLeftChild()) + getTreeSize(node.getRightChild()) + 1;
         }
         return calculateSize;

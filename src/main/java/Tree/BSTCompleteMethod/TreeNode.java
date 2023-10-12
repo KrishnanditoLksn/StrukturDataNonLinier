@@ -1,4 +1,4 @@
-package Tree.DeleteNode;
+package Tree.BSTCompleteMethod;
 
 public class TreeNode {
     private int Element;
