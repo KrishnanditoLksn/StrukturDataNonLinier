@@ -10,12 +10,12 @@ public class Main {
         }
         tree.printTree("", tree.getRoot());
         System.out.println();
-        System.out.println("Tinggi Tree dari Root " + tree.getRoot().getElement() + " adalah :  " + tree.heightNode(tree.getRoot()));
+        System.out.println("Tinggi Tree dari Root " + tree.getRoot().getElement() + " adalah :  " + tree.RootHeightNode(tree.getRoot()));
         System.out.println("Minimum Node : " + tree.minimumNode(tree.getRoot()));
-        System.out.println("Maksimum Node : " + tree.maximumNode(tree.getRoot()));
+        System.out.println("Maximum Node : " + tree.maximumNode(tree.getRoot()));
         System.out.println("Size dari Tree : " + tree.getTreeSize(tree.getRoot()));
         System.out.println("Kedalaman Node : " + tree.nodeDepth(tree.getRoot()));
-
+        System.out.println("Terkecil rekursif " + tree.recursiveMinimumNode(tree.getRoot()));
 
         int size = tree.getTreeSize(tree.getRoot());
         int index = 0;

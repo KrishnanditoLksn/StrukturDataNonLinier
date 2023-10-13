@@ -177,16 +177,30 @@ public class Tree {
     }
 
     public int minimumNode(TreeNode current) {
+        //terus melakukan perulangan selama left child ada
         while (current.getLeftChild() != null) {
+            //current geser terus ke anak kiri
             current = current.getLeftChild();
         }
+        //jika udah kosong , current mendapatkan element yang menjadi nilai minumum dari suatu node
         return current.getElement();
     }
 
+    //versi rekursif dengan algo dari ebook
+    public int recursiveMinimumNode(TreeNode current) {
+        if (current.getLeftChild() == null) {
+            return current.getElement();
+        }
+        return recursiveMinimumNode(current.getLeftChild());
+    }
+
     public int maximumNode(TreeNode current) {
+        //terus melakukan perulangan selama anak kanan ada
         while (current.getRightChild() != null) {
+            //current geser ke anak kanan
             current = current.getRightChild();
         }
+        //jika sudah kosong , current akan mendapatkan element  dan menjadi node maksimum dalam tree
         return current.getElement();
     }
 
@@ -228,19 +242,18 @@ public class Tree {
         return predecessor;
     }
 
-    public int heightNode(TreeNode node) {
+    public int RootHeightNode(TreeNode node) {
         if (node == null) {
             return 0;
-        } else {
-            int leftNodeDepth = heightNode(node.getLeftChild());
-            int rightNodeDepth = heightNode(node.getRightChild());
-
-            //jika right nod > left
-            if (rightNodeDepth > leftNodeDepth) {
-                return leftNodeDepth + rightNodeDepth;
-            } else {
-                return leftNodeDepth + 1;
-            }
+        }
+        int leftNodeDepth = RootHeightNode(node.getLeftChild());
+        int rightNodeDepth = RootHeightNode(node.getRightChild());
+        //jika right nod > left
+        if (rightNodeDepth > leftNodeDepth) {
+            return rightNodeDepth + leftNodeDepth;
+        }//huh
+        else {
+            return leftNodeDepth + 1 ;
         }
     }
 
