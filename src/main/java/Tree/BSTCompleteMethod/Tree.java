@@ -243,19 +243,52 @@ public class Tree {
     }
 
     public int RootHeightNode(TreeNode node) {
+        //Ngebug
+        if (node == null) {
+            return 0;
+        } else {
+            int leftNodeDepth = RootHeightNode(node.getLeftChild());
+            int rightNodeDepth = RootHeightNode(node.getRightChild());
+            //jika right nod > left
+            if (rightNodeDepth > leftNodeDepth) {
+                return (rightNodeDepth + 1);
+            }//huh
+            else {
+                return (leftNodeDepth + 1);
+            }
+        }
+    }
+
+    //aneh salah lagi
+    public int nodeHeight(TreeNode node, int key, int height) {
         if (node == null) {
             return 0;
         }
-        int leftNodeDepth = RootHeightNode(node.getLeftChild());
-        int rightNodeDepth = RootHeightNode(node.getRightChild());
-        //jika right nod > left
-        if (rightNodeDepth > leftNodeDepth) {
-            return rightNodeDepth + leftNodeDepth;
-        }//huh
-        else {
-            return leftNodeDepth + 1 ;
+        if (key == height) {
+            return height;
+        } else {
+            int level = nodeHeight(node.getLeftChild(), key, height + 1);
+
+            if (level != 0) {
+                return level;
+            }
         }
+        return nodeHeight(node.getRightChild(), key, height + 1);
     }
+
+    //SRC = https://www.techiedelight.com/check-given-binary-tree-complete-binary-tree-not/
+    public boolean completeTree(TreeNode node, int i, int key) {
+        if (node == null) {
+            return true;
+        }
+        //Formula 2i + 1 untuk node kiri dan 2i + 2 untuk node kanan
+
+        if ((node.getLeftChild() != null && 2 * i + 1 >= key) || !isCompleteTree(node.getLeftChild(), 2 * i + 1, key)) {
+            return false;
+        } else
+            return (node.getRightChild() != null && 2 * i + 2 >= key) || !isCompleteTree(node.getRightChild(), 2 * i + 2, key);
+    }
+
 
     public void bfsLevel() {
         Queue<TreeNode> treeNodeQueue = new LinkedList<>();
@@ -273,7 +306,7 @@ public class Tree {
     }
 
     public boolean isCompleteTree(TreeNode node, int index, int nNodes) {
-        if (root == null) {
+        if (node == null) {
             return true;
         }
         if (index >= nNodes) {
