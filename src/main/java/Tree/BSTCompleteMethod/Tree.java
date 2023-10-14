@@ -276,20 +276,6 @@ public class Tree {
         return nodeHeight(node.getRightChild(), key, height + 1);
     }
 
-    //SRC = https://www.techiedelight.com/check-given-binary-tree-complete-binary-tree-not/
-    public boolean completeTree(TreeNode node, int i, int key) {
-        if (node == null) {
-            return true;
-        }
-        //Formula 2i + 1 untuk node kiri dan 2i + 2 untuk node kanan
-
-        if ((node.getLeftChild() != null && 2 * i + 1 >= key) || !isCompleteTree(node.getLeftChild(), 2 * i + 1, key)) {
-            return false;
-        } else
-            return (node.getRightChild() != null && 2 * i + 2 >= key) || !isCompleteTree(node.getRightChild(), 2 * i + 2, key);
-    }
-
-
     public void bfsLevel() {
         Queue<TreeNode> treeNodeQueue = new LinkedList<>();
         treeNodeQueue.add(root);
@@ -305,13 +291,15 @@ public class Tree {
         }
     }
 
+    //gfg
     public boolean isCompleteTree(TreeNode node, int index, int nNodes) {
         if (node == null) {
             return true;
         }
         if (index >= nNodes) {
-            return false;
+            return true ;
         }
+        //menggunakan formula 2 * index + 1 untuk node kiri dan 2 * index + 2 untuk node kanan
         return (isCompleteTree(node.getLeftChild(), 2 * index + 1, nNodes) && isCompleteTree(node.getRightChild(), 2 * index + 2, nNodes));
     }
 

@@ -6,8 +6,8 @@ public class Main {
         Tree tree = new Tree();
         int[] insertNodeArray = {60, 55, 100, 107, 67, 105, 57, 45, 59, 106, 43};
         /*     int[] Array = {100, 55, 60, 57, 67, 105, 106, 59};*/
-        int[] arraytest = {1, 2, 3, 4,5,6};
-        for (int i : arraytest) {
+        int[] arraytest = {10, 5, 15, 3, 8, 12, 30};
+        for (int i : insertNodeArray) {
             tree.insert(i);
         }
         tree.printTree("", tree.getRoot());
@@ -22,17 +22,19 @@ public class Main {
 
         int size = tree.getTreeSize(tree.getRoot());
         int index = 0;
-//        if (tree.isCompleteTree(tree.getRoot(), index, size)) {
-//            System.out.println("Merupakan BST yang Complete");
-//        } else {
-//            System.out.println("Bukan BST yang complete ");
-//        }
-
-
-        if (tree.completeTree(tree.getRoot(), 0, size)) {
+        if (tree.isCompleteTree(tree.getRoot(), index, size)) {
             System.out.println("Merupakan BST yang Complete");
         } else {
             System.out.println("Bukan BST yang complete ");
+        }
+
+
+        for (int j : insertNodeArray) {
+            tree.delete(j);
+            System.out.println("Menghapus " + " " + j);
+            System.out.println();
+            tree.printTree("", tree.getRoot());
+
         }
     }
 }
