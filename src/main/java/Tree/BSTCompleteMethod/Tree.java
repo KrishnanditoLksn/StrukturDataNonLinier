@@ -251,10 +251,10 @@ public class Tree {
             int rightNodeDepth = RootHeightNode(node.getRightChild());
             //jika right nod > left
             if (rightNodeDepth > leftNodeDepth) {
-                return (rightNodeDepth + 1);
+                return rightNodeDepth + 1;
             }//huh
             else {
-                return (leftNodeDepth + 1);
+                return leftNodeDepth + 1;
             }
         }
     }
@@ -297,23 +297,49 @@ public class Tree {
             return true;
         }
         if (index >= nNodes) {
-            return true ;
+            return true;
         }
         //menggunakan formula 2 * index + 1 untuk node kiri dan 2 * index + 2 untuk node kanan
         return (isCompleteTree(node.getLeftChild(), 2 * index + 1, nNodes) && isCompleteTree(node.getRightChild(), 2 * index + 2, nNodes));
     }
 
 
-    public int nodeDepth(TreeNode node) {
-        int leftNodeHeight;
-        int rightNodeHeight;
-        if (node == null) {
-            return 0;
-        } else {
-            leftNodeHeight = nodeDepth(node.getLeftChild());
-            rightNodeHeight = nodeDepth(node.getRightChild());
+    //algo by GEEKS FOR GEEKS
+    //recursive version to find the parent of node
+    public void findParent(TreeNode current, int node, int parentTofind) {
+        //jika kosong
+
+        if (current == null) {
+            return;
         }
-        return Math.max(leftNodeHeight, rightNodeHeight) + 1;
+        if (current.getElement() == node) {
+            //jika ketemu tapi tidak ada parent , cetak -1
+            System.out.println(parentTofind);
+        } else {
+            findParent(current.getLeftChild(), node, current.getElement());
+            findParent(current.getRightChild(), node, current.getElement());
+        }
+    }
+
+    public boolean isQueueCompleteTree() {
+        Queue<TreeNode> queue = new LinkedList<>();
+        boolean checker = false;
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            TreeNode temp = queue.peek();
+            queue.remove();
+
+            if (temp == null) {
+                checker = true;
+            } else {
+                if (checker) {
+                    return false;
+                }
+                queue.add(temp.getLeftChild());
+                queue.add(temp.getRightChild());
+            }
+        }
+        return true;
     }
 
     public int getTreeSize(TreeNode node) {

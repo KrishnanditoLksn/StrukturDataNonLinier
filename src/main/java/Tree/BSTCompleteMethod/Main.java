@@ -16,25 +16,27 @@ public class Main {
         System.out.println("Minimum Node : " + tree.minimumNode(tree.getRoot()));
         System.out.println("Maximum Node : " + tree.maximumNode(tree.getRoot()));
         System.out.println("Size dari Tree : " + tree.getTreeSize(tree.getRoot()));
-        System.out.println("Kedalaman Node : " + tree.nodeDepth(tree.getRoot()));
+        /* System.out.println("Kedalaman Node : " + tree.nodeDepth(tree.getRoot()));*/
         System.out.println("Terkecil rekursif " + tree.recursiveMinimumNode(tree.getRoot()));
         System.out.println(tree.nodeHeight(tree.getRoot(), 100, 1));
 
-        int size = tree.getTreeSize(tree.getRoot());
-        int index = 0;
-        if (tree.isCompleteTree(tree.getRoot(), index, size)) {
+        System.out.println("Pelintasan secara BFS ");
+        tree.bfsLevel();
+
+        if (tree.isQueueCompleteTree()) {
             System.out.println("Merupakan BST yang Complete");
         } else {
             System.out.println("Bukan BST yang complete ");
         }
-
-
-        for (int j : insertNodeArray) {
-            tree.delete(j);
-            System.out.println("Menghapus " + " " + j);
-            System.out.println();
-            tree.printTree("", tree.getRoot());
-
-        }
+        int node =43;
+        tree.findParent(tree.getRoot() , node ,-1);
+//
+//        for (int j : insertNodeArray) {
+//            tree.delete(j);
+//            System.out.println("Menghapus " + " " + j);
+//            System.out.println();
+//            tree.printTree("", tree.getRoot());
+//
+//        }
     }
 }
