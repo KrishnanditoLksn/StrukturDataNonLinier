@@ -19,24 +19,29 @@ public class Main {
         /* System.out.println("Kedalaman Node : " + tree.nodeDepth(tree.getRoot()));*/
         System.out.println("Terkecil rekursif " + tree.recursiveMinimumNode(tree.getRoot()));
         System.out.println(tree.nodeHeight(tree.getRoot(), 100, 1));
+        int key = 60;
+//        System.out.println("Sibling dari " + key + " adalah : " + tree.getSibNode(key));
+        System.out.println("Kedalaman node " + tree.nodeDepth(tree.getRoot(), key));
+
 
         System.out.println("Pelintasan secara BFS ");
         tree.bfsLevel();
+        System.out.println();
 
         if (tree.isQueueCompleteTree()) {
             System.out.println("Merupakan BST yang Complete");
         } else {
             System.out.println("Bukan BST yang complete ");
         }
-        int node =43;
-        tree.findParent(tree.getRoot() , node ,-1);
-//
-//        for (int j : insertNodeArray) {
-//            tree.delete(j);
-//            System.out.println("Menghapus " + " " + j);
-//            System.out.println();
-//            tree.printTree("", tree.getRoot());
-//
-//        }
+        int node = 57;
+        System.out.print("Parent dari " + node + " adalah : ");
+        tree.recursiveFindParent(tree.getRoot(), node, -1);
+
+        for (int j : insertNodeArray) {
+            tree.delete(j);
+            System.out.println("Menghapus " + " " + j);
+            System.out.println();
+            tree.printTree("", tree.getRoot());
+        }
     }
 }

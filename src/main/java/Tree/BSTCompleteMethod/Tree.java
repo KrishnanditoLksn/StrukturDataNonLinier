@@ -68,6 +68,10 @@ public class Tree {
         preOrderTraversal(localRoot.getLeftChild());
     }
 
+    public void postOrderTraversal() {
+        postOrderTraversal(getRoot());
+    }
+
     public void postOrderTraversal(TreeNode localRoot) {
         if (localRoot == null) {
             return;
@@ -81,7 +85,7 @@ public class Tree {
         inOrderTraversal(getRoot());
     }
 
-    public void inOrderTraversal(TreeNode localRoot) {
+    private void inOrderTraversal(TreeNode localRoot) {
         if (localRoot == null) {
             return;
         }
@@ -136,14 +140,14 @@ public class Tree {
                     }
 
                 } else if (temp.getLeftChild() != null && temp.getRightChild() != null) {
-                    suksesor(temp);
+                    predecessor(temp);
                 }
                 return;
             }
         }
     }
 
-    public TreeNode getSibNode(int key) {
+    public int getSibNode(int key) {
         TreeNode parent = getRoot();
         TreeNode temp = getRoot();
 
@@ -156,13 +160,13 @@ public class Tree {
                 temp = temp.getRightChild();
             } else {
                 if (temp == parent.getLeftChild()) {
-                    return parent.getRightChild();
+                    return parent.getRightChild().getElement();
                 } else if (temp == parent.getRightChild()) {
-                    return parent.getLeftChild();
+                    return parent.getLeftChild().getElement();
                 }
             }
         }
-        return null;
+        return -1;
     }
 
     // many codes of this tree bst method made from algorithm  from  gfg and 2009 Introduction to Algorithms Third Ed
@@ -174,6 +178,18 @@ public class Tree {
             System.out.println(prefix + ("|-- ") + node.getElement());
             printTree(prefix + "     ", node.getLeftChild());
         }
+    }
+
+    public int nodeDepth(TreeNode current, int node) {
+        //base case
+        if (current == null) {
+            return 0;
+        }
+        int nodeCounter = -1;
+        if (current.getElement() == node || (nodeCounter = nodeDepth(current.getLeftChild(), node)) >= 0 || (nodeCounter = nodeDepth(current.getRightChild(), node)) >= 0) {
+            nodeCounter += 1;
+        }
+        return nodeCounter;
     }
 
     public int minimumNode(TreeNode current) {
@@ -192,6 +208,13 @@ public class Tree {
             return current.getElement();
         }
         return recursiveMinimumNode(current.getLeftChild());
+    }
+
+    public int recursiveMaximumNode(TreeNode current) {
+        if (current.getRightChild() == null) {
+            return current.getElement();
+        }
+        return recursiveMaximumNode(current.getRightChild());
     }
 
     public int maximumNode(TreeNode current) {
@@ -238,7 +261,6 @@ public class Tree {
         } else {
             temp.setLeftChild(predecessor.getLeftChild());
         }
-
         return predecessor;
     }
 
@@ -306,7 +328,7 @@ public class Tree {
 
     //algo by GEEKS FOR GEEKS
     //recursive version to find the parent of node
-    public void findParent(TreeNode current, int node, int parentTofind) {
+    public void recursiveFindParent(TreeNode current, int node, int parentTofind) {
         //jika kosong
 
         if (current == null) {
@@ -316,8 +338,8 @@ public class Tree {
             //jika ketemu tapi tidak ada parent , cetak -1
             System.out.println(parentTofind);
         } else {
-            findParent(current.getLeftChild(), node, current.getElement());
-            findParent(current.getRightChild(), node, current.getElement());
+            recursiveFindParent(current.getLeftChild(), node, current.getElement());
+            recursiveFindParent(current.getRightChild(), node, current.getElement());
         }
     }
 
