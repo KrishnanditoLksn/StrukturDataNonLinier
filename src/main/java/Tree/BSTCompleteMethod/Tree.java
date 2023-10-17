@@ -245,7 +245,7 @@ public class Tree {
         return suksesor;
     }
 
-    public TreeNode predecessor(TreeNode temp) {
+    public int predecessor(TreeNode temp) {
         TreeNode predecessor = temp.getLeftChild();
         TreeNode parentPrede = null;
 
@@ -261,7 +261,7 @@ public class Tree {
         } else {
             temp.setLeftChild(predecessor.getLeftChild());
         }
-        return predecessor;
+        return predecessor.getElement();
     }
 
     public int RootHeightNode(TreeNode node) {
@@ -316,10 +316,10 @@ public class Tree {
     //gfg
     public boolean isCompleteTree(TreeNode node, int index, int nNodes) {
         if (node == null) {
-            return true;
+            return false;
         }
         if (index >= nNodes) {
-            return true;
+            return false;
         }
         //menggunakan formula 2 * index + 1 untuk node kiri dan 2 * index + 2 untuk node kanan
         return (isCompleteTree(node.getLeftChild(), 2 * index + 1, nNodes) && isCompleteTree(node.getRightChild(), 2 * index + 2, nNodes));
@@ -374,5 +374,30 @@ public class Tree {
             calculateSize = getTreeSize(node.getLeftChild()) + getTreeSize(node.getRightChild()) + 1;
         }
         return calculateSize;
+    }
+
+
+    //SOAL UTS 1 SDNL NAMA : EMMANUEL KRISHNANDITO LAKSANA
+    //NIM : 225314024
+
+    //UNFINISHED NODE
+    public int keyGreaterNode(int key) {
+        TreeNode node = getRoot();
+        if (node == null) {
+            return 0;
+        } else {
+            while (node.getElement() != key) {
+                node = node.getRightChild();
+                node = node.getLeftChild();
+
+                if (node.getRightChild().getElement() > key) {
+                    return node.getRightChild().getElement();
+                }
+                else if (node.getLeftChild().getElement() > key){
+                    return  node.getLeftChild().getElement();
+                }
+            }
+        }
+        return -1;
     }
 }
