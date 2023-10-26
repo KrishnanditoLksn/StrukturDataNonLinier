@@ -6,32 +6,32 @@ import java.util.Queue;
 //NAMA : EMMANUEL KRISHNANDITO LAKSANA
 
 
-public class Tree {
-    private TreeNode root;
+public class Tree<T extends Comparable<T>> {
+    private TreeNode<T> root;
 
     public Tree() {
         this.root = null;
     }
 
-    public TreeNode getRoot() {
+    public TreeNode<T> getRoot() {
         return root;
     }
 
-    public void insert(int data) {
-        TreeNode tempRoot = new TreeNode(data);
+    public void insert(T data) {
+        TreeNode<T> tempRoot = new TreeNode<T>(data);
         if (root == null) {
             root = tempRoot;
         } else {
-            TreeNode newNode = getRoot();
+            TreeNode<T> newNode = getRoot();
             while (true) {
-                if (data < newNode.getElement()) {
+                if (data.compareTo(newNode.getElement()) < 0) {
                     if (newNode.getLeftChild() == null) {
                         newNode.setLeftChild(tempRoot);
                         break;
                     } else {
                         newNode = newNode.getLeftChild();
                     }
-                } else if (data >= newNode.getElement()) {
+                } else if (data.compareTo(newNode.getElement()) >= 0) {
                     if (newNode.getRightChild() == null) {
                         newNode.setRightChild(tempRoot);
                         break;
@@ -43,14 +43,14 @@ public class Tree {
         }
     }
 
-    public boolean findTheNode(int key) {
-        TreeNode searcher = getRoot();
+    public boolean findTheNode(T key) {
+        TreeNode<T> searcher = getRoot();
 
         while (searcher != null) {
-            if (searcher.getElement() < key) {
+            if (key.compareTo(searcher.getElement()) < 0) {
                 searcher = searcher.getRightChild();
 
-            } else if (searcher.getElement() > key) {
+            } else if (key.compareTo(searcher.getElement()) > 0) {
                 searcher = searcher.getLeftChild();
             } else {
                 return true;
@@ -59,7 +59,31 @@ public class Tree {
         return false;
     }
 
-    public void preOrderTraversal(TreeNode localRoot) {
+    public T findTheNode2(T key) {
+        TreeNode<T> searcher = getRoot();
+
+        while (searcher != null) {
+            if (key.compareTo(searcher.getElement()) < 0) {
+                searcher = searcher.getRightChild();
+                if (key.compareTo(searcher.getRightChild().getElement()) > 0) {
+                    return searcher.getLeftChild().getElement();
+                } else {
+                    searcher = searcher.getLeftChild();
+                }
+
+            } else if (key.compareTo(searcher.getElement()) > 0) {
+                searcher = searcher.getLeftChild();
+                if (key.compareTo(searcher.getLeftChild().getElement()) < 0) {
+                    return searcher.getElement();
+                } else {
+                    searcher = searcher.getRightChild();
+                }
+            }
+        }
+        return null;
+    }
+
+    public void preOrderTraversal(TreeNode<T> localRoot) {
         if (localRoot == null) {
             return;
         }
@@ -72,7 +96,7 @@ public class Tree {
         postOrderTraversal(getRoot());
     }
 
-    public void postOrderTraversal(TreeNode localRoot) {
+    public void postOrderTraversal(TreeNode<T> localRoot) {
         if (localRoot == null) {
             return;
         }
@@ -85,7 +109,7 @@ public class Tree {
         inOrderTraversal(getRoot());
     }
 
-    private void inOrderTraversal(TreeNode localRoot) {
+    private void inOrderTraversal(TreeNode<T> localRoot) {
         if (localRoot == null) {
             return;
         }
@@ -95,45 +119,45 @@ public class Tree {
     }
 
     //thanks to achmad herlambang
-    public void delete(int key) {
-        TreeNode parent = root;
-        TreeNode temp = root;
+    public void delete(T key) {
+        TreeNode<T> parent = root;
+        TreeNode<T> temp = root;
         //Searching dulu , setelah temp sama dengan key , maka baru lakukan penghapusan node dengan berbagai kondisi
         while (temp != null) {
-            if (key < temp.getElement()) {
+            if (key.compareTo(temp.getElement()) < 0) {
                 parent = temp;
                 temp = temp.getLeftChild();
-            } else if (key > temp.getElement()) {
+            } else if (key.compareTo(temp.getElement()) > 0) {
                 parent = temp;
                 temp = temp.getRightChild();
             } else {
                 //pengkondisian berbagai kondisi child
                 if (temp.getLeftChild() == null && temp.getRightChild() == null) {
-                    if (key < parent.getElement()) {
+                    if (key.compareTo(parent.getElement()) < 0) {
                         parent.setLeftChild(null);
-                    } else if (key > parent.getElement()) {
+                    } else if (key.compareTo(parent.getElement()) > 0) {
                         parent.setRightChild(null);
                     } else {
                         root = null;
                     }
                 } else if (temp.getLeftChild() == null && temp.getRightChild() != null) {
                     //kondisi 1 atau 2
-                    if (key < parent.getElement()) {
+                    if (key.compareTo(parent.getElement()) < 0) {
                         parent.setLeftChild(temp.getRightChild());
-                    } else if (key > parent.getElement()) {
+                    } else if (key.compareTo(parent.getElement()) > 0) {
                         parent.setRightChild(temp.getRightChild());
                     } else {
                         root = temp.getRightChild();
                     }
                 }//kondisi 3 , kiri tidak kosong  dan kanan kosong
                 else if (temp.getLeftChild() != null && temp.getRightChild() == null) {
-                    if (key < parent.getElement()) {
+                    if (key.compareTo(parent.getElement()) < 0) {
                         //kondisi 4 punya anak kiri dari anak kiri
                         parent.setLeftChild(temp.getLeftChild());
                     }
                     //kondisi 4 punya anak kanan dari anak kiri
 
-                    else if (key > parent.getElement()) {
+                    else if (key.compareTo(parent.getElement()) > 0) {
                         parent.setRightChild(temp.getLeftChild());
                     } else {
                         root = temp.getLeftChild();
@@ -147,15 +171,15 @@ public class Tree {
         }
     }
 
-    public int getSibNode(int key) {
-        TreeNode parent = getRoot();
-        TreeNode temp = getRoot();
+    public T getSibNode(T key) {
+        TreeNode<T> parent = getRoot();
+        TreeNode<T> temp = getRoot();
 
         while (temp != null) {
-            if (key < temp.getElement()) {
+            if (key.compareTo(temp.getElement()) < 0) {
                 parent = temp;
                 temp = temp.getLeftChild();
-            } else if (key > temp.getElement()) {
+            } else if (key.compareTo(temp.getElement()) > 0) {
                 parent = temp;
                 temp = temp.getRightChild();
             } else {
@@ -166,13 +190,13 @@ public class Tree {
                 }
             }
         }
-        return -1;
+        return null;
     }
 
     // many codes of this tree bst method made from algorithm  from  gfg and 2009 Introduction to Algorithms Third Ed
     //SUMBER: https://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram-in-java/42449385#42449385
 
-    public void printTree(String prefix, TreeNode node) {
+    public void printTree(String prefix, TreeNode<T> node) {
         if (node != null) {
             printTree(prefix + "     ", node.getRightChild());
             System.out.println(prefix + ("|-- ") + node.getElement());
@@ -180,7 +204,7 @@ public class Tree {
         }
     }
 
-    public int nodeDepth(TreeNode current, int node) {
+    public int nodeDepth(TreeNode<T> current, T node) {
         //base case
         if (current == null) {
             return 0;
@@ -192,7 +216,7 @@ public class Tree {
         return nodeCounter;
     }
 
-    public int minimumNode(TreeNode current) {
+    public T minimumNode(TreeNode<T> current) {
         //terus melakukan perulangan selama left child ada
         while (current.getLeftChild() != null) {
             //current geser terus ke anak kiri
@@ -203,21 +227,21 @@ public class Tree {
     }
 
     //versi rekursif dengan algo dari ebook
-    public int recursiveMinimumNode(TreeNode current) {
+    public T recursiveMinimumNode(TreeNode<T> current) {
         if (current.getLeftChild() == null) {
             return current.getElement();
         }
         return recursiveMinimumNode(current.getLeftChild());
     }
 
-    public int recursiveMaximumNode(TreeNode current) {
+    public T recursiveMaximumNode(TreeNode<T> current) {
         if (current.getRightChild() == null) {
             return current.getElement();
         }
         return recursiveMaximumNode(current.getRightChild());
     }
 
-    public int maximumNode(TreeNode current) {
+    public T maximumNode(TreeNode<T> current) {
         //terus melakukan perulangan selama anak kanan ada
         while (current.getRightChild() != null) {
             //current geser ke anak kanan
@@ -227,9 +251,9 @@ public class Tree {
         return current.getElement();
     }
 
-    public TreeNode suksesor(TreeNode temp) {
-        TreeNode suksesor = temp.getRightChild();
-        TreeNode parentSuksesor = null;
+    public TreeNode<T> suksesor(TreeNode<T> temp) {
+        TreeNode<T> suksesor = temp.getRightChild();
+        TreeNode<T> parentSuksesor = null;
 
         while (suksesor.getLeftChild() != null) {
             parentSuksesor = suksesor;
@@ -245,9 +269,9 @@ public class Tree {
         return suksesor;
     }
 
-    public int predecessor(TreeNode temp) {
-        TreeNode predecessor = temp.getLeftChild();
-        TreeNode parentPrede = null;
+    public void predecessor(TreeNode<T> temp) {
+        TreeNode<T> predecessor = temp.getLeftChild();
+        TreeNode<T> parentPrede = null;
 
         while (predecessor.getRightChild() != null) {
             parentPrede = predecessor;
@@ -261,10 +285,9 @@ public class Tree {
         } else {
             temp.setLeftChild(predecessor.getLeftChild());
         }
-        return predecessor.getElement();
     }
 
-    public int RootHeightNode(TreeNode node) {
+    public int RootHeightNode(TreeNode<T> node) {
         //Ngebug
         if (node == null) {
             return 0;
@@ -282,7 +305,7 @@ public class Tree {
     }
 
     //aneh salah lagi
-    public int nodeHeight(TreeNode node, int key, int height) {
+    public int nodeHeight(TreeNode<T> node, int key, int height) {
         if (node == null) {
             return 0;
         }
@@ -299,10 +322,10 @@ public class Tree {
     }
 
     public void bfsLevel() {
-        Queue<TreeNode> treeNodeQueue = new LinkedList<>();
+        Queue<TreeNode<T>> treeNodeQueue = new LinkedList<>();
         treeNodeQueue.add(root);
         while (!treeNodeQueue.isEmpty()) {
-            TreeNode temp = treeNodeQueue.poll();
+            TreeNode<T> temp = treeNodeQueue.poll();
             System.out.print(temp.getElement() + " ");
             if (temp.getLeftChild() != null) {
                 treeNodeQueue.add(temp.getLeftChild());
@@ -314,7 +337,7 @@ public class Tree {
     }
 
     //gfg
-    public boolean isCompleteTree(TreeNode node, int index, int nNodes) {
+    public boolean isCompleteTree(TreeNode<T> node, int index, int nNodes) {
         if (node == null) {
             return false;
         }
@@ -328,13 +351,13 @@ public class Tree {
 
     //algo by GEEKS FOR GEEKS
     //recursive version to find the parent of node
-    public void recursiveFindParent(TreeNode current, int node, int parentTofind) {
+    public void recursiveFindParent(TreeNode<T> current, T node, T parentTofind) {
         //jika kosong
 
         if (current == null) {
             return;
         }
-        if (current.getElement() == node) {
+        if (node.compareTo(current.getElement()) == 0) {
             //jika ketemu tapi tidak ada parent , cetak -1
             System.out.println(parentTofind);
         } else {
@@ -344,11 +367,11 @@ public class Tree {
     }
 
     public boolean isQueueCompleteTree() {
-        Queue<TreeNode> queue = new LinkedList<>();
+        Queue<TreeNode<T>> queue = new LinkedList<>();
         boolean checker = false;
         queue.add(root);
         while (!queue.isEmpty()) {
-            TreeNode temp = queue.peek();
+            TreeNode<T> temp = queue.peek();
             queue.remove();
 
             if (temp == null) {
@@ -364,7 +387,7 @@ public class Tree {
         return true;
     }
 
-    public int getTreeSize(TreeNode node) {
+    public int getTreeSize(TreeNode<T> node) {
         int calculateSize;
         //base case
         if (node == null) {
@@ -381,23 +404,18 @@ public class Tree {
     //NIM : 225314024
 
     //UNFINISHED NODE
-    public int keyGreaterNode(int key) {
-        TreeNode node = getRoot();
+    public T keyGreaterNode(T key) {
+        TreeNode<T> node = getRoot();
         if (node == null) {
-            return 0;
+            return null;
         } else {
-            while (node.getElement() != key) {
+            while (true) {
                 node = node.getRightChild();
                 node = node.getLeftChild();
-
-                if (node.getRightChild().getElement() > key) {
+                if (key.compareTo(node.getLeftChild().getElement()) > 0) {
                     return node.getRightChild().getElement();
-                }
-                else if (node.getLeftChild().getElement() > key){
-                    return  node.getLeftChild().getElement();
                 }
             }
         }
-        return -1;
     }
 }
