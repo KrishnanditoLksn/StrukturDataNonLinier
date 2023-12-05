@@ -3,19 +3,18 @@ package Graph.MST_Path;
 public class Main {
     public static void main(String[] args) {
         Graph graph = new Graph(6);
-        graph.addVertex('F');
         graph.addVertex('A');
         graph.addVertex('B');
-        graph.addVertex('E');
-        graph.addVertex('D');
         graph.addVertex('C');
+        graph.addVertex('D');
+        graph.addVertex('E');
+        graph.addVertex('F');
 
         for (int i = 0; i < graph.verticesList.length; i++) {
             graph.displayVertex(i);
         }
 
 
-        System.out.print("=".repeat(80));
 
         graph.addEdges('E', 'F', 15);
         graph.addEdges('E', 'D', 15);
@@ -28,7 +27,8 @@ public class Main {
         graph.addEdges('D', 'C', 50);
         graph.addEdges('C', 'B', 5);
 
-        graph.dijkstraShortestPath(3);
+
+        graph.dijkstraShortestPath(0);
         System.out.print("=".repeat(100));
     }
 

@@ -261,14 +261,15 @@ public class Graph {
             int min = minIndexByDijkstra(distance, visited);
             visited[min] = true;
             for (int j = 0; j < amountVertex; j++) {
-                if (!visited[j] && adjacencyMatrix[i][j] != 0 && distance[min] != Integer.MAX_VALUE && distance[min] + adjacencyMatrix[i][j] < distance[j]) {
-                    distance[j] = distance[min] + adjacencyMatrix[i][j];
+                if (!visited[j] && adjacencyMatrix[min][j] != 0 && distance[min] != Integer.MAX_VALUE && distance[min] + adjacencyMatrix[min][j] < distance[j]) {
+                    distance[j] = distance[min] + adjacencyMatrix[min][j];
                 }
             }
         }
-        System.out.println("Rute terpendek cuyy " + startDistance + " ");
+        System.out.println("Rute terpendek  dari  " + verticesList[startDistance].getLabel() + " ");
+        System.out.println();
         for (int i = 0; i < amountVertex; i++) {
-            System.out.println("Ke Vertex  " + i + " " + distance[i]);
+            System.out.println("Ke Vertex  " + verticesList[i].getLabel() + " dengan indeks " + i + " " + " mempunyai bobot " + distance[i]);
         }
     }
 
