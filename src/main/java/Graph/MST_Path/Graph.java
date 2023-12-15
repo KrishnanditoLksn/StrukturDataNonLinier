@@ -25,6 +25,18 @@ public class Graph {
         }
     }
 
+    private static void printPath(int currentVertex, int[] parents, int startVertex) {
+        // Base case : Reached the starting vertex
+        if (currentVertex == startVertex) {
+            System.out.println(startVertex + " ");
+        } else if (parents[currentVertex] == -1 || parents[currentVertex] == currentVertex) {
+            System.out.println("Tidak ada jalur ");
+        } else {
+            printPath(parents[currentVertex], parents, startVertex);
+            System.out.println(currentVertex + " ");
+        }
+    }
+
     void addVertex(char vertex) {
         if (count < amountVertex) {
             verticesList[count++] = new Vertex(vertex);
@@ -104,7 +116,6 @@ public class Graph {
         }
     }
 
-
     void bfsTraversalGraph() {
         int visited = 0;
         int helper;
@@ -135,7 +146,6 @@ public class Graph {
             System.out.println("No more vertex ");
         }
     }
-
 
     int disjointFindOperation(int[] parent, int vertex) {
         if (parent[vertex] != vertex) {
@@ -201,7 +211,6 @@ public class Graph {
         return vertex;
     }
 
-
     void displayMatrix() {//membuat method untuk menampilkan matrix
         for (int i = 0; i < adjacencyMatrix.length; i++) {
             System.out.printf("%-3s", verticesList[i].getLabel() + " ");
@@ -214,6 +223,7 @@ public class Graph {
                 System.out.print(adjacencyMatrix[i][j] + " ");
             }
         }
+
     }
 
     public void topologicalSorting() {
@@ -245,7 +255,6 @@ public class Graph {
         stack.push(start);
     }
 
-
     public void dijkstraShortestPath(int startDistance) {
         int[] distance = new int[amountVertex];
         boolean[] visited = new boolean[amountVertex];
@@ -273,8 +282,67 @@ public class Graph {
         }
     }
 
+    public void dijkstraShortestPath(int startDestination, int destinationVertex) {
+        boolean[] visited = new boolean[amountVertex];
+        int[] distance = new int[amountVertex];
+        int[] parents = new int[amountVertex];
+
+        for (int i = 0; i < amountVertex; i++) {
+            distance[i] = Integer.MAX_VALUE;
+            visited[i] = false;
+        }
+        distance[startDestination] = 0;
+        parents[startDestination] = 0;
+
+
+        //Melakukan perulangan sepanjang jumlah vertex
+        for (int i = 0; i < amountVertex - 1; i++) {
+            int u = minIndexByDijkstra(distance, visited);
+            visited[u] = true;//menandai vertex true
+            for (int j = 0; j < amountVertex; j++) {//Melakukan metode relaksasi
+                if (!visited[j] && adjacencyMatrix[u][j] != 0 && distance[u] != Integer.MAX_VALUE && distance[u] + adjacencyMatrix[u][j] < distance[j]) {
+                    parents[j] = destinationVertex;
+                    distance[j] = distance[u] + adjacencyMatrix[u][j];
+                }
+            }
+        }
+        System.out.println("Rute terpendek  dari  " + verticesList[startDestination].getLabel() + " " + " -> " + verticesList[destinationVertex].getLabel() + " Dengan jarak " + " " + distance[destinationVertex]);
+        getPathGraph(startDestination, distance, parents);
+    }
+
+    public void dijkstraShortestPath(String startDestination, String destinationVertex) {
+        int startDest = getVertexByIndex(startDestination);
+        int finishDest = getVertexByIndex(destinationVertex);
+        boolean[] visited = new boolean[amountVertex];
+        int[] distance = new int[amountVertex];
+        int[] parents = new int[amountVertex];
+
+        for (int i = 0; i < amountVertex; i++) {
+            distance[i] = Integer.MAX_VALUE;
+            visited[i] = false;
+        }
+        distance[startDest] = 0;
+        parents[startDest] = 0;
+
+
+        //Melakukan perulangan sepanjang jumlah vertex
+        for (int i = 0; i < amountVertex - 1; i++) {
+            int u = minIndexByDijkstra(distance, visited);
+            visited[u] = true;//menandai vertex true
+            for (int j = 0; j < amountVertex; j++) {//Melakukan metode relaksasi
+                if (!visited[j] && adjacencyMatrix[u][j] != 0 && distance[u] != Integer.MAX_VALUE && distance[u] + adjacencyMatrix[u][j] < distance[j]) {
+                    parents[j] = finishDest;
+                    distance[j] = distance[u] + adjacencyMatrix[u][j];
+                }
+            }
+        }
+        System.out.println("Rute terpendek  dari  " + verticesList[startDest].getLabel() + " " + " -> " + verticesList[finishDest].getLabel() + " Dengan jarak " + " " + distance[finishDest]);
+        getPathGraph(startDest, distance, parents);
+    }
+
+
     public int minIndexByDijkstra(int[] distance, boolean[] shortestPath) {
-        int min = Integer.MAX_VALUE, minIndex = -1;
+        int min = Integer.MAX_VALUE, minIndex = 0;
 
         for (int i = 0; i < amountVertex; i++) {
             if (!shortestPath[i] && distance[i] < min) {
@@ -283,5 +351,19 @@ public class Graph {
             }
         }
         return minIndex;
+    }
+
+    public void getPathGraph(int startV, int[] distances, int[] parents) {
+        int vertexAmount = distances.length;
+        System.out.print("Vertex\t Distance\tPath");
+
+        for (int vertexIndex = 0; vertexIndex < vertexAmount; vertexIndex++) {
+            if (vertexIndex != startV) {
+                System.out.print("\n" + startV + " -> ");
+                System.out.print(vertexIndex + " \t\t ");
+                System.out.print(distances[vertexIndex] + "\t\t");
+//                printPath(vertexIndex, parents, startV);
+            }
+        }
     }
 }

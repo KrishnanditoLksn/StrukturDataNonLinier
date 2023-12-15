@@ -15,7 +15,6 @@ public class Main {
         }
 
 
-
         graph.addEdges('E', 'F', 15);
         graph.addEdges('E', 'D', 15);
         graph.addEdges('F', 'D', 10);
@@ -28,8 +27,7 @@ public class Main {
         graph.addEdges('C', 'B', 5);
 
 
-        graph.dijkstraShortestPath(0);
-        System.out.print("=".repeat(100));
+        graph.dijkstraShortestPath("A","F");
     }
 
 }
